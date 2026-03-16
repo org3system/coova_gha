@@ -1,0 +1,16 @@
+# RPM build outputs
+artifacts/
+rpmbuild/
+*.rpm
+*.src.rpm
+
+# Logs and temp
+*.log
+*.tmp
+*.swp
+*~
+
+# OS/editor noise
+.DS_Store
+.vscode/
+.idea/

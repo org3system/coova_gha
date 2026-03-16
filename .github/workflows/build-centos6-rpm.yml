@@ -1,0 +1,49 @@
+name: Build CoovaChilli 1.8 RPM (CentOS 6)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-rpm:
+    runs-on: ubuntu-latest
+    container:
+      image: quay.io/centos/centos:6
+
+    steps:
+      - name: Install base build tooling
+        run: |
+          yum clean all
+          sed -i 's|^mirrorlist=|#mirrorlist=|g' /etc/yum.repos.d/CentOS-Base.repo
+          sed -i 's|^#baseurl=http://mirror.centos.org/centos/\$releasever|baseurl=http://vault.centos.org/6.10|g' /etc/yum.repos.d/CentOS-Base.repo
+          yum -y install epel-release || true
+          yum -y install \
+            git \
+            rpm-build \
+            rpmdevtools \
+            yum-utils \
+            which \
+            ca-certificates
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build RPM
+        run: |
+          chmod +x scripts/build-centos6-rpm.sh
+          scripts/build-centos6-rpm.sh
+
+      - name: Collect RPM artifacts
+        run: |
+          mkdir -p artifacts
+          find /github/home/rpmbuild -type f \( -name '*.rpm' -o -name '*.src.rpm' \) -exec cp -v {} artifacts/ \;
+
+      - name: Upload RPM artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coova-chilli-centos6-rpms
+          path: artifacts/*
+          if-no-files-found: error
