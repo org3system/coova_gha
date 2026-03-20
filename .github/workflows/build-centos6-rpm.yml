@@ -17,16 +17,23 @@ jobs:
       - name: Install base build tooling
         run: |
           yum clean all
-          sed -i 's|^mirrorlist=|#mirrorlist=|g' /etc/yum.repos.d/CentOS-Base.repo
-          sed -i 's|^#baseurl=http://mirror.centos.org/centos/\$releasever|baseurl=http://vault.centos.org/6.10|g' /etc/yum.repos.d/CentOS-Base.repo
+          sed -i 's|^mirrorlist=|#mirrorlist=|g' /etc/yum.repos.d/CentOS-*.repo
+          sed -i 's|^#baseurl=http://mirror.centos.org/centos/\$releasever|baseurl=http://vault.centos.org/6.10|g' /etc/yum.repos.d/CentOS-*.repo
           yum -y install epel-release || true
+          yum -y install yum-utils
+          yum-config-manager --disable 'C*'
+          yum-config-manager --add-repo http://vault.centos.org/6.10/os/x86_64/
           yum -y install \
             git \
             rpm-build \
             rpmdevtools \
-            yum-utils \
             which \
-            ca-certificates
+            ca-certificates \
+            perl \
+            perl-Module-Pluggable \
+            perl-Pod-Simple \
+            perl-Error \
+            perl-Git
 
       - name: Checkout repository
         uses: actions/checkout@v4
