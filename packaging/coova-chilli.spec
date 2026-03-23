@@ -5,7 +5,7 @@ Summary:        Secure hotspot access controller
 
 License:        GPLv2+
 URL:            https://github.com/coova/coova-chilli
-Source0:        https://codeload.github.com/coova/coova-chilli/tar.gz/refs/tags/%{version}
+Source0:        coova-chilli-1.8.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
