@@ -31,6 +31,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Prepare source tarball
+        run: |
+          mkdir -p ~/rpmbuild/SOURCES
+          wget --tries=3 -O ~/rpmbuild/SOURCES/coova-chilli-1.8.tar.gz https://codeload.github.com/coova/coova-chilli/tar.gz/refs/tags/1.8
+
       - name: Build RPM
         run: |
           chmod +x scripts/build-centos6-rpm.sh
