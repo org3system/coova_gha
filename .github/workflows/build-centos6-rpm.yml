@@ -18,8 +18,8 @@ jobs:
 
       - name: Prepare source tarball
         run: |
-          mkdir -p ~/rpmbuild/SOURCES
-          wget --tries=3 -O ~/rpmbuild/SOURCES/coova-chilli-1.8.tar.gz https://codeload.github.com/coova/coova-chilli/tar.gz/refs/tags/1.8
+          mkdir -p ${{ github.workspace }}/rpmbuild/SOURCES
+          wget --tries=3 -O ${{ github.workspace }}/rpmbuild/SOURCES/coova-chilli-1.8.tar.gz https://codeload.github.com/coova/coova-chilli/tar.gz/refs/tags/1.8
 
       - name: Build RPM in Docker (CentOS 6)
         run: |
