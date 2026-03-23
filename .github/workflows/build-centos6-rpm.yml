@@ -21,6 +21,10 @@ jobs:
           mkdir -p ${{ github.workspace }}/rpmbuild/SOURCES
           wget --tries=3 -O ${{ github.workspace }}/rpmbuild/SOURCES/coova-chilli-1.8.tar.gz https://codeload.github.com/coova/coova-chilli/tar.gz/refs/tags/1.8
 
+      - name: Fix source tarball ownership
+        run: |
+          chown $(id -u):$(id -g) ${{ github.workspace }}/rpmbuild/SOURCES/coova-chilli-1.8.tar.gz
+
       - name: Build RPM in Docker (CentOS 6)
         run: |
           docker run --rm \
