@@ -10,43 +10,40 @@ on:
 jobs:
   build-rpm:
     runs-on: ubuntu-latest
-    container:
-      image: quay.io/centos/centos:6
 
     steps:
-      - name: Install base build tooling
-        run: |
-          yum clean all
-          sed -i 's|^mirrorlist=|#mirrorlist=|g' /etc/yum.repos.d/CentOS-*.repo
-          sed -i 's|^#baseurl=http://mirror.centos.org/centos/\$releasever|baseurl=http://vault.centos.org/6.10|g' /etc/yum.repos.d/CentOS-*.repo
-          yum -y install epel-release || true
-          yum -y install yum-utils
-          yum-config-manager --disable 'C*'
-          yum-config-manager --add-repo http://vault.centos.org/6.10/os/x86_64/
-          yum -y install \
-            git \
-            rpm-build \
-            rpmdevtools \
-            which \
-            ca-certificates \
-            perl \
-            perl-Module-Pluggable \
-            perl-Pod-Simple \
-            perl-Error \
-            perl-Git
-
+    
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build RPM
+      - name: Build RPM in Docker (CentOS 6)
         run: |
-          chmod +x scripts/build-centos6-rpm.sh
-          scripts/build-centos6-rpm.sh
+          docker run --rm \
+            -v ${{ github.workspace }}:/workspace \
+            -e HOME=/workspace \
+            -w /workspace \
+            quay.io/centos/centos:6 \
+            bash -c "
+              set -euo pipefail
+              yum clean all
+              sed -i 's|^mirrorlist=|#mirrorlist=|g' /etc/yum.repos.d/CentOS-*.repo
+              sed -i 's|^#baseurl=http://mirror.centos.org/centos/\$releasever|baseurl=http://vault.centos.org/6.10|g' /etc/yum.repos.d/CentOS-*.repo
+              yum -y install epel-release || true
+              yum -y install \
+                git \
+                rpm-build \
+                rpmdevtools \
+                yum-utils \
+                which \
+                ca-certificates
+              chmod +x /workspace/scripts/build-centos6-rpm.sh
+              /workspace/scripts/build-centos6-rpm.sh
+            "
 
       - name: Collect RPM artifacts
         run: |
           mkdir -p artifacts
-          find /github/home/rpmbuild -type f \( -name '*.rpm' -o -name '*.src.rpm' \) -exec cp -v {} artifacts/ \;
+          find ${{ github.workspace }}/rpmbuild -type f \( -name '*.rpm' -o -name '*.src.rpm' \) -exec cp -v {} artifacts/ \;
 
       - name: Upload RPM artifacts
         uses: actions/upload-artifact@v4
