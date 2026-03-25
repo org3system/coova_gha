@@ -46,6 +46,7 @@ jobs:
                 which \
                 ca-certificates
               chmod +x /workspace/scripts/build-centos6-rpm.sh
+              chown -R root:root /workspace/rpmbuild/SOURCES || true
               /workspace/scripts/build-centos6-rpm.sh
             "
 
