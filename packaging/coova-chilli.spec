@@ -31,6 +31,7 @@ access with 802.1X and RADIUS integration.
 %setup -q -n coova-chilli-%{version}
 
 %build
+mkdir -p m4
 autoreconf -fi
 %configure \
   --prefix=/usr \
