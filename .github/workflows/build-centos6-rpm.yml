@@ -45,7 +45,8 @@ jobs:
                 yum-utils \
                 which \
                 ca-certificates \
-                gcc-c++
+                gcc-c++ \
+                gengetopt
               chmod +x /workspace/scripts/build-centos6-rpm.sh
               chown -R root:root /workspace/rpmbuild/SOURCES || true
               /workspace/scripts/build-centos6-rpm.sh
