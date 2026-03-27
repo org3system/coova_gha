@@ -4,5 +4,6 @@
 # Other contents of the file...
 
 %setup -q -n coova-chilli-1.8
+mkdir -p m4
 
 # Remaining contents of the file...

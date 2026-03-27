@@ -10,7 +10,6 @@ if [[ ! -f "$SPEC_FILE" ]]; then
 fi
 
 mkdir -p "$TOPDIR"/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
-mkdir -p m4
 
 # Keep rpm macros explicit so the build is reproducible in CI.
 cat > "$HOME/.rpmmacros" <<EOF
