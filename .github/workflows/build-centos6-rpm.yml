@@ -10,6 +10,8 @@ on:
 jobs:
   build-rpm:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
     
@@ -63,3 +65,19 @@ jobs:
           name: coova-chilli-centos6-rpms
           path: artifacts/*
           if-no-files-found: error
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="v1.8"
+          if gh release view "$TAG" --repo ${{ github.repository }} &>/dev/null; then
+            gh release upload "$TAG" artifacts/* \
+              --repo ${{ github.repository }} --clobber
+          else
+            gh release create "$TAG" artifacts/* \
+              --repo ${{ github.repository }} \
+              --title "CoovaChilli 1.8 (CentOS 6 RPM)" \
+              --notes "CoovaChilli 1.8 RPM built for CentOS 6 / EL6." \
+              --latest
+          fi
