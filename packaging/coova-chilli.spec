@@ -30,7 +30,7 @@ for public and private Wi-Fi hotspots, providing authentication,
 authorization, and accounting features.
 
 %prep
-%setup -q -n coova-chilli
+%setup -q -n coova-chilli-%{version}
 
 # Provide empty cmdline.patch to satisfy build dependency
 : > src/cmdline.patch
