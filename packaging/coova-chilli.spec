@@ -12,6 +12,9 @@ Source0:        coova-chilli-1.8.tar.gz
 
 BuildRequires:  gcc
 BuildRequires:  make
+BuildRequires:  libtool
+BuildRequires:  autoconf
+BuildRequires:  automake
 BuildRequires:  openssl-devel
 BuildRequires:  libnl-devel
 BuildRequires:  libcap-devel
