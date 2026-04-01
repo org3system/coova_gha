@@ -72,10 +72,10 @@ jobs:
         run: |
           TAG="v1.8"
           if gh release view "$TAG" --repo ${{ github.repository }} &>/dev/null; then
-            gh release upload "$TAG" artifacts/*.rpm artifacts/*.src.rpm \
+            gh release upload "$TAG" artifacts/* \
               --repo ${{ github.repository }} --clobber
           else
-            gh release create "$TAG" artifacts/*.rpm artifacts/*.src.rpm \
+            gh release create "$TAG" artifacts/* \
               --repo ${{ github.repository }} \
               --title "CoovaChilli 1.8 (CentOS 6 RPM)" \
               --notes "CoovaChilli 1.8 RPM built for CentOS 6 / EL6." \
