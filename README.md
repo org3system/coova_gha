@@ -24,3 +24,9 @@ The workflow uploads RPMs copied from `/github/home/rpmbuild/` into `artifacts/`
 - Source RPM(s)
 
 as artifact `coova-chilli-centos6-rpms`.
+
+## Releases
+
+Built RPMs are also published as GitHub Releases and can be downloaded from:
+
+https://github.com/org3system/coova_gha/releases
